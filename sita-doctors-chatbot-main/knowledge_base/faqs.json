@@ -1,0 +1,177 @@
+[
+  {
+    "id": "faq-01",
+    "question": "The \"Join Call\" button is disabled. Why?",
+    "answer": "The button only activates during the exact 20-minute window of the scheduled appointment (e.g., from 10:00 AM to 10:20 AM). If it is before the slot, the button will display Starts in Xm. Please ensure your computer's clock is set to Indian Standard Time (IST)."
+  },
+  {
+    "id": "faq-02",
+    "question": "The patient says they cannot hear me in the video call.",
+    "answer": "Check if the microphone icon in the call window is unmuted. Ensure your browser (Chrome/Edge/Firefox) has permission to access your microphone. Click the lock/tune icon in the browser address bar to allow audio/video permissions."
+  },
+  {
+    "id": "faq-03",
+    "question": "How do I change my clinic address?",
+    "answer": "Go to Clinic Location in the sidebar, update the address text and Google Maps share link, and click Save Clinic Details."
+  },
+  {
+    "id": "faq-04",
+    "question": "Can I change my practice mode from Telemedicine to Both?",
+    "answer": "Yes. Contact the ABP Admin via the support line to update your practice profile settings to Both Online & Offline. Once enabled, your dashboard will display both clinic location and dual pricing options."
+  },
+  {
+    "id": "faq-05",
+    "question": "How do I get paid for my consultations?",
+    "answer": "ABP processes payouts to the bank account registered in your Profile Settings. Payouts are reconciled and transferred on the scheduled weekly/monthly disbursement cycle."
+  },
+  {
+    "id": "faq-06",
+    "question": "I have submitted my registration, but I cannot access the Doctor Dashboard. What should I do?",
+    "answer": "After submitting your registration, verify your email using the 6-digit OTP. Your profile then moves to Pending Review while the ABP Medical Administration team verifies your medical registration. You can start accepting bookings after approval. If the status does not progress, contact ABP support."
+  },
+  {
+    "id": "faq-07",
+    "question": "What should I do if I do not receive the registration OTP?",
+    "answer": "Check that you entered the correct email address and look for the verification message in your inbox and spam/junk folder. If the OTP still does not arrive, use the available registration-page options or contact ABP support for assistance."
+  },
+  {
+    "id": "faq-08",
+    "question": "Can I edit my medical registration number after my profile has been approved?",
+    "answer": "Verified medical credentials are locked after administrative verification. Contact ABP support if your registration number or another verified credential needs correction."
+  },
+  {
+    "id": "faq-09",
+    "question": "Which details can I update from Profile Settings?",
+    "answer": "You can update your mobile number, state and district, doctor type and primary specialty, years of experience, ABDM Healthcare Professional ID (HPR ID), and medical system. Verified medical credentials remain locked after approval."
+  },
+  {
+    "id": "faq-10",
+    "question": "Why is my proposed consultation fee not visible to patients?",
+    "answer": "A proposed fee must be approved by the ABP Admin team before it becomes active on the patient app. Check the approval-status badge in Profile Settings. If it is Pending Admin Approval, wait for review; if rejected, review the displayed reason, revise the fee, and save it again."
+  },
+  {
+    "id": "faq-11",
+    "question": "Can I set different fees for online and in-clinic consultations?",
+    "answer": "Yes. The platform supports separate approved base fees for telemedicine and in-clinic consultations. Update the relevant proposed fees in Profile Settings; they become active on the patient app after administrative approval."
+  },
+  {
+    "id": "faq-12",
+    "question": "What is the follow-up fee used for?",
+    "answer": "The follow-up fee is a discounted rate for return visits within a treatment cycle. You can propose this fee in Profile Settings, subject to the platform's approval process."
+  },
+  {
+    "id": "faq-13",
+    "question": "Why can I not add an appointment slot for a date beyond the next two days?",
+    "answer": "Availability uses a 3-day rolling schedule: Today, Tomorrow, and Day After. Slots can be created within this displayed window. Check the relevant day tab when managing your availability."
+  },
+  {
+    "id": "faq-14",
+    "question": "Why was my new slot rejected or not added?",
+    "answer": "The system checks for overlapping slots. Choose a start time that does not overlap an existing slot, then try adding it again. Each consultation slot has a fixed duration of 20 minutes."
+  },
+  {
+    "id": "faq-15",
+    "question": "Can I create a consultation slot that lasts 30 or 60 minutes?",
+    "answer": "No. The dashboard enforces a 20-minute duration for each consultation slot. The end time is calculated automatically based on the selected start time."
+  },
+  {
+    "id": "faq-16",
+    "question": "Can I delete a slot after a patient has booked it?",
+    "answer": "No. An unbooked slot can be deleted, but a booked slot cannot be deleted because it is linked to an active patient appointment. Check your availability carefully before publishing slots."
+  },
+  {
+    "id": "faq-17",
+    "question": "Why is a slot marked as Booked?",
+    "answer": "A slot displays the Booked badge after a patient pays and reserves it. Booked slots are protected from deletion to help prevent scheduling conflicts."
+  },
+  {
+    "id": "faq-18",
+    "question": "Why is an appointment missing from today's patient queue?",
+    "answer": "The Appointments section shows the patient queue for the current date. Confirm that you are viewing the correct date and consultation mode. For older appointments, use the History section and its search or date filters."
+  },
+  {
+    "id": "faq-19",
+    "question": "Where can I check whether a patient has paid?",
+    "answer": "Open Appointments and review the payment status shown on the appointment card. The status is displayed as Paid or Pending."
+  },
+  {
+    "id": "faq-20",
+    "question": "What should I do if I cannot hear the patient during a telemedicine call?",
+    "answer": "Check that your device's audio output is working and that the call is not muted on your side. Confirm that the patient has enabled their microphone and allowed browser microphone access. If the problem continues, reconnect if possible and contact support."
+  },
+  {
+    "id": "faq-21",
+    "question": "What should I do if my camera does not work in a video consultation?",
+    "answer": "Use the camera control in the video room to ensure video is switched on. Check that your browser has permission to access the camera and that another application is not preventing access. If the issue continues, contact ABP support."
+  },
+  {
+    "id": "faq-22",
+    "question": "Can I join a telemedicine call before the scheduled appointment time?",
+    "answer": "The Join Call button becomes active only during the appointment's scheduled 20-minute window. Before that window, the button displays a countdown or an opening time. Join when the button becomes active."
+  },
+  {
+    "id": "faq-23",
+    "question": "What happens when the 20-minute consultation timer reaches zero?",
+    "answer": "The consultation is designed to conclude automatically at the end of the 20-minute slot. A flashing red warning appears when fewer than two minutes remain, helping you prepare to finish the session."
+  },
+  {
+    "id": "faq-24",
+    "question": "Do I need to mark an appointment complete after the consultation?",
+    "answer": "Yes. After evaluating the patient, click Mark Complete. This records the completion timestamp and credits the consultation earnings to your earnings ledger."
+  },
+  {
+    "id": "faq-25",
+    "question": "What should I do if I need to cancel an appointment because of an emergency?",
+    "answer": "Open the appointment and click Cancel, then enter a cancellation reason. The reason is sent to the patient. If the patient paid online, the system automatically triggers a full refund to the original payment method through Razorpay."
+  },
+  {
+    "id": "faq-26",
+    "question": "Where can I find a patient's previous consultation details?",
+    "answer": "Go to History. Search using the patient's name or appointment ID, and use the available date filters—Today, Last 7 Days, Last 30 Days, or All Time—to locate past consultations."
+  },
+  {
+    "id": "faq-27",
+    "question": "Which file formats are accepted for digital prescriptions?",
+    "answer": "The History section supports prescription uploads in PDF, PNG, and JPG formats. Select the completed appointment, click Upload Prescription, and choose the document to upload."
+  },
+  {
+    "id": "faq-28",
+    "question": "How will a patient know that I uploaded a prescription?",
+    "answer": "After the prescription is uploaded, the patient is notified immediately and can view or download it in the ABP Mobile App."
+  },
+  {
+    "id": "faq-29",
+    "question": "Where can I check my earnings from completed consultations?",
+    "answer": "Open Earnings from the sidebar. The section provides total net earnings, total consultations, pending payments, and refunded amounts, with date filters to help review your income."
+  },
+  {
+    "id": "faq-30",
+    "question": "Why has a completed consultation not appeared in my net earnings?",
+    "answer": "The earnings summary counts verified earnings from completed and paid appointments. Confirm that the appointment has been marked complete and check its payment status. If the figures still appear incorrect, contact ABP support with the appointment details."
+  },
+  {
+    "id": "faq-31",
+    "question": "How can I download a record of my consultation earnings?",
+    "answer": "Go to Earnings and click Download Statement. The system generates a printable PDF containing your doctor registration details, selected date range, official ABP header, and transaction ledger."
+  },
+  {
+    "id": "faq-32",
+    "question": "What should I check if a payout has not reached my bank account?",
+    "answer": "Confirm that the bank details saved in Profile Settings are accurate, including the account holder's name, bank name, account number, IFSC code, and account type. Payouts follow the scheduled weekly or monthly disbursement cycle. If the expected payout remains missing, contact ABP support."
+  },
+  {
+    "id": "faq-33",
+    "question": "Why can I not edit my registration or degree certificate details?",
+    "answer": "Medical registration details and verified credentials are locked after administrative verification. Contact ABP support to request a correction to verified medical credentials."
+  },
+  {
+    "id": "faq-34",
+    "question": "How can patients find my clinic after booking an in-person appointment?",
+    "answer": "Enter the complete clinic address and a valid Google Maps share link in Clinic Location, then click Save Clinic Details. Patients receive the address and a Get Directions button in the ABP mobile app for GPS navigation."
+  },
+  {
+    "id": "faq-35",
+    "question": "What should I do if the dashboard does not appear to update after a booking or completed consultation?",
+    "answer": "The Doctor Overview is designed to update automatically in real time without a manual page reload. Check the relevant Dashboard, Appointments, or Earnings section for the latest status. If the information remains incorrect or outdated, contact ABP support and provide the relevant appointment details."
+  }
+]
