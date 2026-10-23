@@ -16,3 +16,4 @@ jobs:
           curl --fail --silent --show-error \
             --max-time 120 \
             https://chatbot-0jak.onrender.com/api/health
+            # Scheduled Render health check
