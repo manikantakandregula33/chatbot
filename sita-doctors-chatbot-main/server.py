@@ -15,6 +15,11 @@ from retrieval import FALLBACK_MESSAGE, find_answer, load_faqs
 MAX_REQUEST_BYTES = 16_384
 STREAM_WORD_PATTERN = re.compile(r"\S+\s*")
 
+# For a public chatbot that does not use cookies or credentials,
+# "*" permits requests from any frontend origin.
+# For production, replace "*" with your frontend's exact origin.
+ALLOWED_ORIGIN = os.environ.get("CORS_ALLOWED_ORIGIN", "*")
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s %(levelname)s %(message)s",
@@ -27,15 +32,41 @@ class SitaRequestHandler(BaseHTTPRequestHandler):
     faqs: list[dict[str, str]] | None = None
     knowledge_base_error: str | None = None
 
+    def _add_cors_headers(self) -> None:
+        self.send_header("Access-Control-Allow-Origin", ALLOWED_ORIGIN)
+        self.send_header(
+            "Access-Control-Allow-Methods",
+            "GET, POST, OPTIONS, HEAD",
+        )
+        self.send_header(
+            "Access-Control-Allow-Headers",
+            "Content-Type, Authorization",
+        )
+        self.send_header("Vary", "Origin")
+        self.send_header("X-Content-Type-Options", "nosniff")
+
+    def do_OPTIONS(self) -> None:
+        request_path = urlparse(self.path).path
+
+        if request_path != "/api/chat":
+            self.send_error(404, "Not found")
+            return
+
+        self.send_response(204)
+        self._add_cors_headers()
+        self.send_header("Access-Control-Max-Age", "86400")
+        self.send_header("Content-Length", "0")
+        self.end_headers()
+
     def do_HEAD(self) -> None:
         if urlparse(self.path).path != "/api/health":
             self.send_error(404, "Not found")
             return
 
         self.send_response(200)
+        self._add_cors_headers()
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Content-Length", "0")
-        self.send_header("X-Content-Type-Options", "nosniff")
         self.end_headers()
 
     def do_GET(self) -> None:
@@ -134,6 +165,7 @@ class SitaRequestHandler(BaseHTTPRequestHandler):
     def _stream_answer(self, answer: str, matched: bool) -> None:
         self.close_connection = True
         self.send_response(200)
+        self._add_cors_headers()
         self.send_header(
             "Content-Type", "text/event-stream; charset=utf-8"
         )
@@ -141,7 +173,6 @@ class SitaRequestHandler(BaseHTTPRequestHandler):
         self.send_header("Connection", "close")
         self.send_header("Transfer-Encoding", "chunked")
         self.send_header("X-Accel-Buffering", "no")
-        self.send_header("X-Content-Type-Options", "nosniff")
         self.end_headers()
 
         try:
@@ -182,11 +213,11 @@ class SitaRequestHandler(BaseHTTPRequestHandler):
         ).encode("utf-8")
 
         self.send_response(status)
+        self._add_cors_headers()
         self.send_header(
             "Content-Type", "application/json; charset=utf-8"
         )
         self.send_header("Content-Length", str(len(body)))
-        self.send_header("X-Content-Type-Options", "nosniff")
         self.end_headers()
         self.wfile.write(body)
 
@@ -211,7 +242,7 @@ def main() -> None:
         SitaRequestHandler.knowledge_base_error = str(error)
         logger.exception("FAQ knowledge base could not be loaded")
 
-    # Render supplies PORT; local development can still use SITA_PORT.
+    # Render supplies PORT; local development can use SITA_PORT.
     host = "0.0.0.0"
     port = int(
         os.environ.get(
