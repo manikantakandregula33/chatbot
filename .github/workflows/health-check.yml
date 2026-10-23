@@ -1,0 +1,17 @@
+
+name: Render Health Check
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check chatbot health
+        run: |
+          curl --fail --silent --show-error \
+            --max-time 120 \
+            https://chatbot-0jak.onrender.com/api/health
