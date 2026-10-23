@@ -1,5 +1,4 @@
 
-
 name: Render Health Check
 
 on:
@@ -13,7 +12,8 @@ jobs:
     steps:
       - name: Check chatbot health
         run: |
+          echo "Checking Render chatbot..."
           curl --fail --silent --show-error \
             --max-time 120 \
             https://chatbot-0jak.onrender.com/api/health
-            # Scheduled Render health check
+          echo "Health check completed."
