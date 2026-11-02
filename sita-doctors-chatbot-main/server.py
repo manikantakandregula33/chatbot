@@ -265,7 +265,8 @@ def main() -> None:
 
 # For a public chatbot that does not use cookies or credentials,
 # "*" permits requests from any frontend origin.
-# For production, replace "*" with your frontend's exact origin.    host = "0.0.0.0"
+# For production, replace "*" with your frontend's exact origin.    
+    host = "0.0.0.0"
     port = int(
         os.environ.get(
             "PORT",
