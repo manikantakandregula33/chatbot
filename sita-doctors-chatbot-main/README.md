@@ -40,6 +40,20 @@ The stream carries the answer from the matched FAQ. If there is no sufficiently 
 
 The default minimum similarity score is `0.32`; set `SITA_MATCH_THRESHOLD` to a number from `0` to `1` to tune it. Ambiguous matches are rejected unless the best match exceeds the next-best match by at least `0.10`. The FAQ is validated at startup. If it cannot be loaded, the API remains available and FAQ questions receive the required fallback.
 
+## Frontend
+
+A standalone, dependency-free chat interface is in [`frontend/`](./frontend/). It uses the deployed Render API URL configured in `frontend/config.js` and reads the `/api/chat` Server-Sent Events response in the browser.
+
+To run the frontend locally, start the backend and open `frontend/index.html` in a browser. For reliable browser requests from an HTTP development server, serve the frontend directory locally, for example:
+
+```powershell
+python -m http.server 5500 --directory frontend
+```
+
+Then open <http://127.0.0.1:5500>. The backend currently permits cross-origin requests with `Access-Control-Allow-Origin: *`.
+
+To deploy the frontend separately on Render, create a **Static Site** from this repository with `frontend` as the root directory, no build step, and `.` as the publish directory. If the backend URL changes, update `SITA_API_BASE_URL` in `frontend/config.js` before deploying.
+
 ## Run tests
 
 ```powershell
@@ -53,4 +67,5 @@ python -m unittest discover -s tests -v
 - `greetings.py` — greeting-only conversation responses
 - `formatting.py` — deterministic, source-preserving bullet-point formatting
 - `knowledge_base/faqs.json` — approved question-and-answer records
+- `frontend/` — standalone chat interface connected to the Render API
 - `tests/` — knowledge-base, retrieval, formatting, and streaming tests

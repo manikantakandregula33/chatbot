@@ -1,5 +1,5 @@
 [
-  {
+    {
     "id": "faq-01",
     "question": "The \"Join Call\" button is disabled. Why?",
     "answer": "The button only activates during the exact 20-minute window of the scheduled appointment (e.g., from 10:00 AM to 10:20 AM). If it is before the slot, the button will display Starts in Xm. Please ensure your computer's clock is set to Indian Standard Time (IST)."
@@ -158,20 +158,5 @@
     "id": "faq-32",
     "question": "What should I check if a payout has not reached my bank account?",
     "answer": "Confirm that the bank details saved in Profile Settings are accurate, including the account holder's name, bank name, account number, IFSC code, and account type. Payouts follow the scheduled weekly or monthly disbursement cycle. If the expected payout remains missing, contact ABP support."
-  },
-  {
-    "id": "faq-33",
-    "question": "Why can I not edit my registration or degree certificate details?",
-    "answer": "Medical registration details and verified credentials are locked after administrative verification. Contact ABP support to request a correction to verified medical credentials."
-  },
-  {
-    "id": "faq-34",
-    "question": "How can patients find my clinic after booking an in-person appointment?",
-    "answer": "Enter the complete clinic address and a valid Google Maps share link in Clinic Location, then click Save Clinic Details. Patients receive the address and a Get Directions button in the ABP mobile app for GPS navigation."
-  },
-  {
-    "id": "faq-35",
-    "question": "What should I do if the dashboard does not appear to update after a booking or completed consultation?",
-    "answer": "The Doctor Overview is designed to update automatically in real time without a manual page reload. Check the relevant Dashboard, Appointments, or Earnings section for the latest status. If the information remains incorrect or outdated, contact ABP support and provide the relevant appointment details."
-  }
+   }
 ]

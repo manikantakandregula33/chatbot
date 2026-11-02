@@ -10,14 +10,13 @@ from urllib.parse import urlparse
 from formatting import format_answer_for_display
 from greetings import get_greeting_response
 from retrieval import FALLBACK_MESSAGE, find_answer, load_faqs
+from question_filter import is_abp_related, UNRELATED_MESSAGE
 
 
 MAX_REQUEST_BYTES = 16_384
 STREAM_WORD_PATTERN = re.compile(r"\S+\s*")
 
-# For a public chatbot that does not use cookies or credentials,
-# "*" permits requests from any frontend origin.
-# For production, replace "*" with your frontend's exact origin.
+# Render supplies PORT; local development can use SITA_PORT.
 ALLOWED_ORIGIN = os.environ.get("CORS_ALLOWED_ORIGIN", "*")
 
 logging.basicConfig(
@@ -130,36 +129,58 @@ class SitaRequestHandler(BaseHTTPRequestHandler):
             )
             return
 
-        greeting = get_greeting_response(payload["question"])
+        question = payload["question"].strip()
+
+        if not question:
+            self._send_json(
+                400,
+                {"error": "Question cannot be empty."},
+            )
+            return
+
+        # 1. Check whether the question is a greeting.
+        greeting = get_greeting_response(question)
         answer = greeting or FALLBACK_MESSAGE
         matched = greeting is not None
 
+        # 2. Process non-greeting questions.
         if greeting is None:
+
             if self.faqs is None:
                 logger.error(
                     "FAQ knowledge base unavailable: %s",
                     self.knowledge_base_error,
                 )
+                answer = FALLBACK_MESSAGE
+                matched = False
+
             else:
                 try:
-                    match = find_answer(payload["question"], self.faqs)
-                except (ValueError, OSError) as error:
-                    logger.exception(
-                        "Unable to match the submitted question: %s",
-                        error,
-                    )
-                    self._send_json(
-                        500,
-                        {"error": "The question could not be processed."},
-                    )
-                    return
+                    # 3. Search existing FAQs first.
+                    match = find_answer(question, self.faqs)
 
+                except (ValueError, OSError):
+                    logger.exception("FAQ search failed.")
+                    match = None
+
+                # 4. Return a verified FAQ answer when available.
                 if match is not None:
                     answer = format_answer_for_display(
                         match["faq"]["answer"]
                     )
                     matched = True
 
+                # 5. Reject unrelated questions.
+                elif not is_abp_related(question):
+                    answer = UNRELATED_MESSAGE
+                    matched = False
+
+                # 6. Do not generate unsupported ABP answers.
+                else:
+                    answer = FALLBACK_MESSAGE
+                    matched = False
+
+        # 7. Stream the answer using the existing SSE implementation.
         self._stream_answer(answer, matched)
 
     def _stream_answer(self, answer: str, matched: bool) -> None:
@@ -242,8 +263,9 @@ def main() -> None:
         SitaRequestHandler.knowledge_base_error = str(error)
         logger.exception("FAQ knowledge base could not be loaded")
 
-    # Render supplies PORT; local development can use SITA_PORT.
-    host = "0.0.0.0"
+# For a public chatbot that does not use cookies or credentials,
+# "*" permits requests from any frontend origin.
+# For production, replace "*" with your frontend's exact origin.    host = "0.0.0.0"
     port = int(
         os.environ.get(
             "PORT",

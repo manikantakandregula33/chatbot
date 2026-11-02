@@ -1,0 +1,116 @@
+SITA AI BACKEND - REQUEST AND RESPONSE FLOW
+
+OVERVIEW
+
+This project is a backend-only HTTP API. A separate frontend or API client sends
+requests and reads the streamed chat responses.
+
+1. STARTUP
+
+When server.py starts, it loads and validates:
+
+    knowledge_base/faqs.json
+
+The server listens on 0.0.0.0. It uses the PORT environment variable when set;
+otherwise SITA_PORT; otherwise port 8000. If the FAQ file cannot be loaded,
+the API still starts, but chat questions that are not greetings receive the
+fallback response.
+
+2. HEALTH CHECK
+
+Request:
+
+    GET /api/health
+
+Example response:
+
+    {
+      "status": "ok",
+      "knowledgeBaseLoaded": true
+    }
+
+HEAD /api/health is also supported. It returns HTTP 200 with no response body.
+
+3. SUBMIT A CHAT QUESTION
+
+Request:
+
+    POST /api/chat
+    Content-Type: application/json
+
+    {"question":"How do I change my clinic address?"}
+
+The request body must contain valid JSON with a string property named
+"question". The body must be larger than zero bytes and no larger than 16,384
+bytes.
+
+4. HOW THE BACKEND CHOOSES AN ANSWER
+
+The server processes the submitted question in this order:
+
+    a. Greeting check
+       The message is normalized and checked against configured exact
+       conversational phrases, such as "hi" or "thank you". A matching greeting
+       receives its configured response without FAQ matching.
+
+    b. FAQ matching
+       Other messages are normalized using token aliases and spelling
+       correction, then compared against FAQ questions. By default, a match
+       must score at least 0.32, exceed the next-best match by at least 0.10,
+       and share at least two terms with the best FAQ question.
+
+    c. Answer formatting
+       A matched FAQ answer may be formatted as Markdown bullets when clear
+       actionable steps are found. The formatter preserves the approved answer
+       wording rather than adding instructions.
+
+    d. Fallback
+       If there is no sufficiently confident FAQ match, or the FAQ data did not
+       load, the server uses this response:
+
+       Currently, Sita AI is expanding its services. We will get back to you soon.
+
+5. STREAMED CHAT RESPONSE
+
+Successful chat requests return HTTP 200 with Content-Type
+"text/event-stream; charset=utf-8". The answer is sent in word-sized SSE chunk
+events, followed by a done event. Example:
+
+    event: chunk
+    data: {"text":"You "}
+
+    event: chunk
+    data: {"text":"can "}
+
+    event: chunk
+    data: {"text":"update "}
+
+    event: done
+    data: {"matched":true}
+
+The client concatenates the "text" values from chunk events to reconstruct the
+answer. The "matched" value is true for a greeting or FAQ match and false for
+the fallback. HTTP libraries handle the underlying chunked transfer encoding;
+clients should parse the SSE events rather than raw HTTP chunk framing.
+
+6. ERROR RESPONSES
+
+Validation and processing errors return JSON instead of an SSE stream.
+
+    HTTP 400 - Invalid Content-Length, empty body, malformed JSON, or missing
+               or non-string question.
+    HTTP 404 - Unknown API route.
+    HTTP 413 - Request body exceeds 16,384 bytes.
+    HTTP 500 - The question could not be processed due to a matching error.
+
+Example:
+
+    {"error":"Request body must contain a question string."}
+
+7. IMPLEMENTATION FILES
+
+    server.py                       HTTP routes, request validation, and streaming
+    retrieval.py                    FAQ loading, normalization, and matching
+    greetings.py                    Greeting and conversational responses
+    formatting.py                   Optional Markdown formatting of FAQ answers
+    knowledge_base/faqs.json        Approved FAQ question-and-answer records
